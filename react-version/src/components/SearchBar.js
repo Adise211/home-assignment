@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import areas from '../data/areas.json';
 import cities from '../data/cities.json';
+import branches from '../data/branches.json';
+import DisplayBranch from './DisplayBranch';
+import '../styles/SearchBar.css';
 
 
 const SearchBar = () => {
     const [areasList,setAreasList] = useState([]);
     const [citiesList,setCitiesList] = useState([]);
     const [selecableCities,setSelectableCities] = useState([]);
+    const [selectedBranch,setSelectedBranch] = useState(null);
+    const [showBranch,setShowBranch] = useState('');
+    const [city,setCity] = useState('');
 
 
     useEffect(() => {
@@ -16,22 +22,42 @@ const SearchBar = () => {
 
 
     const handleSelectedArea = (e) => {
-        // console.log("arear",e.target.value);
         const { value } = e.target;
         const findCities = citiesList.length > 0 && citiesList.filter((city) => {
             return city.area === value
         });
         setSelectableCities(findCities);
+    };
+
+    const handleSelectedCity = (e) => {
+        const { value } = e.target;
+        setSelectedBranch(value);
+        console.log("selected c",value);
+    };
+
+    const handleSearchBranchInfo = () => {
+        const display = branches.length > 0 && branches.filter((br) => {
+            return br.cityId === selectedBranch
+        });
+
+        setShowBranch(display);
+        const find = selectedBranch && citiesList.filter( (x) => { return x.id === selectedBranch});
+        setCity(find)
     }
 
-    console.log("selecableCities", selecableCities);
+    // const city = selectedBranch ? citiesList.filter(x=> x.id === selectedBranch) : '';
+    // console.log("city",city); 
 
     return (
         <>
-            <div>
-                <div>
-                    <label htmlFor='area'>Area: </label>
-                    <select name='area' onChange={handleSelectedArea}>
+            <div className='s-container' style={{ padding: 100 , marginTop: 100, width: '70%'}}>
+                <div className='s-inputs'>
+                    <label htmlFor='area' style={{ fontWeight: 'bold' }}>Area: </label>
+                    <select 
+                        name='area' 
+                        onChange={handleSelectedArea} 
+                        style={{ padding: 10, width: 150, fontSize: 16, marginRight: 80 }}
+                    >
                         <option></option>
                         {areasList.length > 0  && areasList.map((item) => {
                             return (
@@ -46,24 +72,35 @@ const SearchBar = () => {
                         })}
                     </select>
 
-                    <label htmlFor='city'>City: </label>
-                    <select>
+                    <label htmlFor='city' style={{ fontWeight: 'bold' }}>City: </label>
+                    <select 
+                        name='city' 
+                        onChange={handleSelectedCity} 
+                        style={{ padding: 10, width: 150, fontSize: 16 }}
+                    >
                         {selecableCities.length > 0 ? selecableCities.map((city) => {
-                           return (
+                            return (
                             <option
                                 key={city.id}
                                 value={city.id}
                             >
                                 {city.cityName}
                             </option>
-                           )
+                            )
                         }) : (
                             <option></option>
                         )}
                     </select>
                 </div>
-                <button>Search</button>
+                <button 
+                    onClick={handleSearchBranchInfo} 
+                    style={{ fontStyle: 18, fontWeight: 'bold' }}
+                    className='button'
+                >
+                    Search
+                </button>
             </div>
+            <DisplayBranch showBranch={showBranch} city={city}/>
         </>
     )
 };

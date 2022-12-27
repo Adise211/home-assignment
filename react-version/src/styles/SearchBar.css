@@ -1,0 +1,24 @@
+.s-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border: 1px solid ghostwhite;
+    background-color: ghostwhite;
+    box-shadow: 3px 3px 3px 3px grey;
+    margin-left: 10vw;
+
+}
+.button {
+    background-color: hotpink;
+    margin-left: 10em;
+    padding: 1em;
+    width: 10em;
+    border: 1px solid hotpink;
+    border-radius: 5em;
+    box-shadow: 2px 2px 2px black;
+    cursor: pointer;
+}
+
+.button:active {
+    background-color: #ff87c3;
+}
