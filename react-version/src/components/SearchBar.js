@@ -45,8 +45,6 @@ const SearchBar = () => {
         setCity(find)
     }
 
-    // const city = selectedBranch ? citiesList.filter(x=> x.id === selectedBranch) : '';
-    // console.log("city",city); 
 
     return (
         <>
@@ -78,6 +76,7 @@ const SearchBar = () => {
                         onChange={handleSelectedCity} 
                         style={{ padding: 10, width: 150, fontSize: 16 }}
                     >
+                        <option></option>
                         {selecableCities.length > 0 ? selecableCities.map((city) => {
                             return (
                             <option
