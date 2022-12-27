@@ -1,0 +1,18 @@
+[
+    { "id": "1", "area": "1", "cityName": "חיפה" },
+    { "id": "2", "area": "1", "cityName": "נצרת" },
+    { "id": "3", "areae": "1", "cityName": "חדרה" },
+
+    { "id": "4", "area": "2", "cityName": "נתניה" },
+    { "id": "5", "area": "2", "cityName": "הרצליה" },
+    { "id": "6", "area": "2", "cityName": "רעננה" },
+
+    { "id": "7", "area": "3", "cityName": "תל-אביב" },
+    { "id": "8", "area": "3", "cityName": "ראשון לציון" },
+    { "id": "9", "area": "3", "cityName": "חולון" },
+
+    { "id": "10", "area": "4", "cityName": "באר-שבע" },
+    { "id": "11", "area": "4", "cityName": "דימונה" },
+    { "id": "12", "area": "4", "cityName": "אילת" }
+
+]
