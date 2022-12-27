@@ -3,7 +3,6 @@ import '../styles/DisplayBranch.css';
 import dounts_2 from '../images/dounts_2.jpeg';
 
 const DisplayBranch = ({ showBranch, city }) => {
-    console.log("showBranch",city);
     return (
         <div className='cards-container'>
             {showBranch[0] && (

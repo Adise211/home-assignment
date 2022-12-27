@@ -32,7 +32,6 @@ const SearchBar = () => {
     const handleSelectedCity = (e) => {
         const { value } = e.target;
         setSelectedBranch(value);
-        console.log("selected c",value);
     };
 
     const handleSearchBranchInfo = () => {
