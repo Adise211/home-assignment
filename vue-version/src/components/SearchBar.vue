@@ -15,7 +15,7 @@
                 </select>
                 <label for="city">City:</label>
                 <select id="city" @change="handleCity" class="select-2">
-                    <option>choose city</option>
+                    <option>{{ selectableCities.length !== 0 ? 'choose city': ''}}</option>
                     <option
                         :value="city.id"
                         v-for="city in selectableCities"
