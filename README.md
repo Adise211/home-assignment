@@ -1,6 +1,6 @@
 # Home Assignment
 
-This project includes two different JS frameworks projects, one in React.js and the other in Vue.js. Both of them display the same task.
+This project includes two projects in different JS frameworks, one in React.js and the other in Vue.js. Both of them display the same task.
 
 ## To Start ##
 
@@ -12,5 +12,5 @@ React task:
 Vue task:
 1. $ cd vue-version
 2. $ npm i
-3. vue serve
+3. $ vue serve
 
