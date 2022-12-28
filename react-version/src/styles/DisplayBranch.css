@@ -1,6 +1,24 @@
 .card {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     text-align: center;
     margin: 5em;
+    
+}
+
+.image {
+    height: 15em;
+    width: 17em;
+    align-self: center;
+    margin-top: 50px;
+    border: 0.5px solid black;
+    padding: 5em;
+    background-color: antiquewhite;
+    opacity: 0.5;
+}
+
+.text {
+    position: relative;
+    bottom: 5.5em;
 }

@@ -47,7 +47,7 @@ const SearchBar = () => {
 
     return (
         <>
-            <div className='s-container' style={{ padding: 100 , marginTop: 100, width: '70%'}}>
+            <div className='s-container' style={{ padding: 100 , marginTop: 50, width: '70%'}}>
                 <div className='s-inputs'>
                     <label htmlFor='area' style={{ fontWeight: 'bold' }}>Area: </label>
                     <select 
