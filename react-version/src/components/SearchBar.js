@@ -14,7 +14,7 @@ const SearchBar = () => {
     const [showBranch,setShowBranch] = useState('');
     const [city,setCity] = useState('');
 
-
+    
     useEffect(() => {
         setAreasList(areas);
         setCitiesList(cities);
@@ -75,7 +75,7 @@ const SearchBar = () => {
                         onChange={handleSelectedCity} 
                         style={{ padding: 10, width: 150, fontSize: 16 }}
                     >
-                        <option></option>
+                        <option>{selecableCities.length > 0 ? 'choose city' : ''}</option>
                         {selecableCities.length > 0 ? selecableCities.map((city) => {
                             return (
                             <option
@@ -94,6 +94,7 @@ const SearchBar = () => {
                     onClick={handleSearchBranchInfo} 
                     style={{ fontStyle: 18, fontWeight: 'bold' }}
                     className='button'
+                    disabled={selecableCities.length > 0 ? false : true}
                 >
                     Search
                 </button>
