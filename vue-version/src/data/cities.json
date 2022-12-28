@@ -1,7 +1,7 @@
 [
     { "id": "1", "area": "1", "cityName": "חיפה" },
     { "id": "2", "area": "1", "cityName": "נצרת" },
-    { "id": "3", "areae": "1", "cityName": "חדרה" },
+    { "id": "3", "area": "1", "cityName": "חדרה" },
 
     { "id": "4", "area": "2", "cityName": "נתניה" },
     { "id": "5", "area": "2", "cityName": "הרצליה" },
