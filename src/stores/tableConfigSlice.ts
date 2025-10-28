@@ -6,7 +6,7 @@ export interface TableConfigState {
 }
 
 const initialState: TableConfigState = {
-  rows: 1,
+  rows: 5,
 };
 
 export const tableConfigSlice = createSlice({

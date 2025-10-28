@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,30 +10,27 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { setRows } from "@/stores/tableConfigSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "@/stores/store";
 
 export const Route = createFileRoute("/tableConfig")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const [value, setValue] = useState(5);
+  const rows = useSelector((state: RootState) => state.tableConfig.rows);
   const dispatch = useDispatch();
+
   const handleSliderChange = (newValue: number[]) => {
-    setValue(newValue[0]);
+    dispatch(setRows(newValue[0]));
   };
 
   const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value);
     if (!isNaN(newValue) && newValue >= 1 && newValue <= 10) {
-      setValue(newValue);
+      dispatch(setRows(newValue));
     }
   };
-
-  useEffect(() => {
-    console.log("value changed to:", value);
-    dispatch(setRows(value));
-  }, [value]);
 
   return (
     <div className="space-y-6">
@@ -56,13 +52,13 @@ function RouteComponent() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="slider">Value: {value}</Label>
+              <Label htmlFor="slider">Value: {rows}</Label>
               <Slider
                 id="slider"
                 min={1}
                 max={10}
                 step={1}
-                value={[value]}
+                value={[rows]}
                 onValueChange={handleSliderChange}
                 className="w-full"
               />
@@ -90,7 +86,7 @@ function RouteComponent() {
                 type="number"
                 min={1}
                 max={10}
-                value={value}
+                value={rows}
                 onChange={handleNumberChange}
                 className="w-full"
                 placeholder="Enter 1-10"
@@ -115,7 +111,7 @@ function RouteComponent() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="font-medium">Current Value:</span>
-              <span className="text-lg font-bold text-primary">{value}</span>
+              <span className="text-lg font-bold text-primary">{rows}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">
