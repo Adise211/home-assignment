@@ -9,9 +9,27 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TableConfigRouteImport } from './routes/tableConfig'
+import { Route as DataTableRouteImport } from './routes/dataTable'
+import { Route as AdminPanelRouteImport } from './routes/adminPanel'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TableConfigRoute = TableConfigRouteImport.update({
+  id: '/tableConfig',
+  path: '/tableConfig',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DataTableRoute = DataTableRouteImport.update({
+  id: '/dataTable',
+  path: '/dataTable',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPanelRoute = AdminPanelRouteImport.update({
+  id: '/adminPanel',
+  path: '/adminPanel',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -26,31 +44,70 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/adminPanel': typeof AdminPanelRoute
+  '/dataTable': typeof DataTableRoute
+  '/tableConfig': typeof TableConfigRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/adminPanel': typeof AdminPanelRoute
+  '/dataTable': typeof DataTableRoute
+  '/tableConfig': typeof TableConfigRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/adminPanel': typeof AdminPanelRoute
+  '/dataTable': typeof DataTableRoute
+  '/tableConfig': typeof TableConfigRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths: '/' | '/about' | '/adminPanel' | '/dataTable' | '/tableConfig'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to: '/' | '/about' | '/adminPanel' | '/dataTable' | '/tableConfig'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/adminPanel'
+    | '/dataTable'
+    | '/tableConfig'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminPanelRoute: typeof AdminPanelRoute
+  DataTableRoute: typeof DataTableRoute
+  TableConfigRoute: typeof TableConfigRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tableConfig': {
+      id: '/tableConfig'
+      path: '/tableConfig'
+      fullPath: '/tableConfig'
+      preLoaderRoute: typeof TableConfigRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dataTable': {
+      id: '/dataTable'
+      path: '/dataTable'
+      fullPath: '/dataTable'
+      preLoaderRoute: typeof DataTableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/adminPanel': {
+      id: '/adminPanel'
+      path: '/adminPanel'
+      fullPath: '/adminPanel'
+      preLoaderRoute: typeof AdminPanelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -71,6 +128,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminPanelRoute: AdminPanelRoute,
+  DataTableRoute: DataTableRoute,
+  TableConfigRoute: TableConfigRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
