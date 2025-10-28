@@ -1,6 +1,6 @@
 # Home Assignment
 
-This project is built with modern React technologies and provides a comprehensive data management solution with admin panel functionality.
+This project is built with modern React technologies.
 
 ## Tech Stack
 
