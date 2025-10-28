@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 import type { RootState } from "@/stores/store";
 import {
   Table,
@@ -18,10 +19,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { todosService } from "@/services/todos.service";
-import { useQueryClient } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
-import { useMutation } from "@tanstack/react-query";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/dataTable")({
   component: RouteComponent,
@@ -29,9 +30,7 @@ export const Route = createFileRoute("/dataTable")({
 
 function RouteComponent() {
   const rows = useSelector((state: RootState) => state.tableConfig.rows);
-
-  // Access the client
-  const queryClient = useQueryClient();
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Queries
   const query = useQuery({
@@ -39,17 +38,30 @@ function RouteComponent() {
     queryFn: todosService.getTodos,
   });
 
-  // Mutations
-  const mutation = useMutation({
-    mutationFn: todosService.postTodo,
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
-    },
-  });
+  // Calculate pagination
+  const totalData = query.data || [];
+  const totalPages = Math.ceil(totalData.length / rows);
+  const startIndex = (currentPage - 1) * rows;
+  const endIndex = startIndex + rows;
+  const displayData = totalData.slice(startIndex, endIndex);
 
-  // Get the data to display based on the rows setting
-  const displayData = query.data ? query.data.slice(0, rows) : [];
+  // Pagination handlers
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  // Reset to first page when rows change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [rows]);
 
   const getStatusBadge = (completed: boolean) => {
     return completed ? (
@@ -74,7 +86,10 @@ function RouteComponent() {
       <div>
         <h1 className="text-3xl font-bold">Data Table</h1>
         <p className="text-muted-foreground">
-          Displaying {displayData.length} of {query.data?.length || 0} todos
+          Displaying {displayData.length} of {totalData.length} todos
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Page {currentPage} of {totalPages} • {rows} rows per page
         </p>
       </div>
 
@@ -132,22 +147,7 @@ function RouteComponent() {
                         <Badge variant="outline">User {todo.userId}</Badge>
                       </TableCell>
                       <TableCell>{getStatusBadge(todo.completed)}</TableCell>
-                      <TableCell>
-                        <button
-                          onClick={() => {
-                            mutation.mutate({
-                              id: Date.now(),
-                              title: "New Todo from Table",
-                              userId: todo.userId,
-                              completed: false,
-                            });
-                          }}
-                          className="text-blue-600 hover:text-blue-800 text-sm"
-                          disabled={mutation.isPending}
-                        >
-                          {mutation.isPending ? "Adding..." : "Add Similar"}
-                        </button>
-                      </TableCell>
+                      <TableCell>-</TableCell>
                     </TableRow>
                   )
                 )
@@ -158,6 +158,41 @@ function RouteComponent() {
               adjust the number of rows displayed.
             </TableCaption>
           </Table>
+        </CardContent>
+      </Card>
+
+      {/* Pagination Controls */}
+      <Card>
+        <CardContent className="py-4">
+          <div className="flex items-center justify-between">
+            <div className="text-sm text-muted-foreground">
+              Showing {startIndex + 1} to {Math.min(endIndex, totalData.length)}{" "}
+              of {totalData.length} todos
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={goToPreviousPage}
+                disabled={currentPage === 1}
+              >
+                <ChevronLeft className="h-4 w-4" />
+                Previous
+              </Button>
+              <span className="text-sm font-medium">
+                Page {currentPage} of {totalPages}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={goToNextPage}
+                disabled={currentPage === totalPages}
+              >
+                Next
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>
