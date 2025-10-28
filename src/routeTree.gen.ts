@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TableConfigRouteImport } from './routes/tableConfig'
 import { Route as DataTableRouteImport } from './routes/dataTable'
 import { Route as AdminPanelRouteImport } from './routes/adminPanel'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TableConfigRoute = TableConfigRouteImport.update({
@@ -30,11 +29,6 @@ const AdminPanelRoute = AdminPanelRouteImport.update({
   path: '/adminPanel',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -43,14 +37,12 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/adminPanel': typeof AdminPanelRoute
   '/dataTable': typeof DataTableRoute
   '/tableConfig': typeof TableConfigRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/adminPanel': typeof AdminPanelRoute
   '/dataTable': typeof DataTableRoute
   '/tableConfig': typeof TableConfigRoute
@@ -58,28 +50,20 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/adminPanel': typeof AdminPanelRoute
   '/dataTable': typeof DataTableRoute
   '/tableConfig': typeof TableConfigRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/adminPanel' | '/dataTable' | '/tableConfig'
+  fullPaths: '/' | '/adminPanel' | '/dataTable' | '/tableConfig'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/adminPanel' | '/dataTable' | '/tableConfig'
-  id:
-    | '__root__'
-    | '/'
-    | '/about'
-    | '/adminPanel'
-    | '/dataTable'
-    | '/tableConfig'
+  to: '/' | '/adminPanel' | '/dataTable' | '/tableConfig'
+  id: '__root__' | '/' | '/adminPanel' | '/dataTable' | '/tableConfig'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
   AdminPanelRoute: typeof AdminPanelRoute
   DataTableRoute: typeof DataTableRoute
   TableConfigRoute: typeof TableConfigRoute
@@ -108,13 +92,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPanelRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -127,7 +104,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
   AdminPanelRoute: AdminPanelRoute,
   DataTableRoute: DataTableRoute,
   TableConfigRoute: TableConfigRoute,

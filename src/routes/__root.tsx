@@ -1,29 +1,28 @@
-import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import {
+  SidebarProvider,
+  SidebarInset,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { SideNavbar } from "@/components/core/SideNavbar";
 
 const RootLayout = () => (
-  <>
-    <div className="p-2 flex gap-2">
-      <Link to="/" className="[&.active]:font-bold">
-        Home
-      </Link>{" "}
-      <Link to="/about" className="[&.active]:font-bold">
-        About
-      </Link>
-      <Link to="/adminPanel" className="[&.active]:font-bold">
-        Admin Panel
-      </Link>
-      <Link to="/dataTable" className="[&.active]:font-bold">
-        Data Table
-      </Link>
-      <Link to="/tableConfig" className="[&.active]:font-bold">
-        Table Config
-      </Link>
-    </div>
-    <hr />
-    <Outlet />
+  <SidebarProvider>
+    <SideNavbar />
+    <SidebarInset>
+      <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+        <SidebarTrigger className="-ml-1" />
+        <div className="flex items-center gap-2">
+          <h1 className="text-lg font-semibold">Epiq Assignment</h1>
+        </div>
+      </header>
+      <div className="flex flex-1 flex-col gap-4 p-4">
+        <Outlet />
+      </div>
+    </SidebarInset>
     <TanStackRouterDevtools />
-  </>
+  </SidebarProvider>
 );
 
 export const Route = createRootRoute({ component: RootLayout });
