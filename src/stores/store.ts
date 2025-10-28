@@ -2,17 +2,19 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // localStorage
 import tableConfigSlice from "./tableConfigSlice";
+import featureFlagsSlice from "./featureFlagsSlice";
 
 // Config for the store
 const rootReducer = combineReducers({
   tableConfig: tableConfigSlice,
+  featureFlags: featureFlagsSlice,
 });
 
 // Config for the persistor
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["tableConfig"], // only persist these slices
+  whitelist: ["tableConfig", "featureFlags"], // only persist these slices
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,4 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/stores/store";
 import {
   Sidebar,
   SidebarContent,
@@ -14,31 +16,39 @@ import {
 } from "@/components/ui/sidebar";
 import { Home, Settings, Table, Database, User } from "lucide-react";
 
-const navigationItems = [
-  {
-    title: "Home",
-    url: "/",
-    icon: Home,
-  },
-  {
-    title: "Admin Panel",
-    url: "/adminPanel",
-    icon: User,
-  },
-  {
-    title: "Data Table",
-    url: "/dataTable",
-    icon: Table,
-  },
-  {
-    title: "Table Config",
-    url: "/tableConfig",
-    icon: Settings,
-  },
-];
-
 export function SideNavbar() {
   const location = useLocation();
+  const { isTableConfigPageEnabled } = useSelector(
+    (state: RootState) => state.featureFlags
+  );
+
+  const navigationItems = [
+    {
+      title: "Home",
+      url: "/",
+      icon: Home,
+    },
+    {
+      title: "Admin Panel",
+      url: "/adminPanel",
+      icon: User,
+    },
+    {
+      title: "Data Table",
+      url: "/dataTable",
+      icon: Table,
+    },
+    // Only include Table Config if it's enabled
+    ...(isTableConfigPageEnabled
+      ? [
+          {
+            title: "Table Config",
+            url: "/tableConfig",
+            icon: Settings,
+          },
+        ]
+      : []),
+  ];
 
   return (
     <Sidebar>

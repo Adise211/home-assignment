@@ -12,6 +12,8 @@ import {
 import { setRows } from "@/stores/tableConfigSlice";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/stores/store";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 export const Route = createFileRoute("/tableConfig")({
   component: RouteComponent,
@@ -19,6 +21,9 @@ export const Route = createFileRoute("/tableConfig")({
 
 function RouteComponent() {
   const rows = useSelector((state: RootState) => state.tableConfig.rows);
+  const { isTableConfigPageEnabled, isTableConfigSliderEnabled } = useSelector(
+    (state: RootState) => state.featureFlags
+  );
   const dispatch = useDispatch();
 
   const handleSliderChange = (newValue: number[]) => {
@@ -32,6 +37,27 @@ function RouteComponent() {
     }
   };
 
+  // If the page is disabled, show a message
+  if (!isTableConfigPageEnabled) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold">Table Configuration</h1>
+          <p className="text-muted-foreground">
+            This page has been disabled by an administrator.
+          </p>
+        </div>
+        <Alert>
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>
+            The Table Configuration page is currently disabled. Please contact
+            an administrator to enable it.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div>
@@ -42,33 +68,35 @@ function RouteComponent() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        {/* Slider Input Card */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Slider Input</CardTitle>
-            <CardDescription>
-              Use the slider to select a value between 1 and 10
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="slider">Value: {rows}</Label>
-              <Slider
-                id="slider"
-                min={1}
-                max={10}
-                step={1}
-                value={[rows]}
-                onValueChange={handleSliderChange}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>1</span>
-                <span>10</span>
+        {/* Slider Input Card - Only show if enabled */}
+        {isTableConfigSliderEnabled && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Slider Input</CardTitle>
+              <CardDescription>
+                Use the slider to select a value between 1 and 10
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="slider">Value: {rows}</Label>
+                <Slider
+                  id="slider"
+                  min={1}
+                  max={10}
+                  step={1}
+                  value={[rows]}
+                  onValueChange={handleSliderChange}
+                  className="w-full"
+                />
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span>1</span>
+                  <span>10</span>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Number Input Card */}
         <Card>
