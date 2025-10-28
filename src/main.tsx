@@ -5,6 +5,7 @@ import { routeTree } from "./routeTree.gen";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import "./main.css";
 
 // Create a new router instance
 const router = createRouter({ routeTree });

@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { todosService } from "../../services/todos.service";
+import { Button } from "@/components/ui/button";
 
 export function Todos() {
   // Access the client
@@ -22,8 +23,8 @@ export function Todos() {
 
   return (
     <div>
-      <button
-        className="p-2 bg-blue-500 text-white rounded"
+      <Button
+        variant="default"
         onClick={() => {
           mutation.mutate({
             id: Date.now(),
@@ -34,7 +35,7 @@ export function Todos() {
         }}
       >
         Add Todo
-      </button>
+      </Button>
       <ul>
         {query.data?.map(
           (todo: {
